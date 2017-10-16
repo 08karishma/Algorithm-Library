@@ -14,7 +14,7 @@
 #define pi(n) printf("%d", n)
 #define pin(n) printf("%d\n", n)
 #define pll(n) printf("%lld", n)
-#define plln(n) printf("%lld\n", n)
+#define plln(n) printf("%lld\n",n)
 using namespace std;
 
 struct edge{
