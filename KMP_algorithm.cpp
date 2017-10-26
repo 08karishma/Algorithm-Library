@@ -65,7 +65,8 @@ int main()
             }
         }
         else{
-            j=F[j]; i++;
+            if(j>0) j=F[j];
+            else i++;
         }
     }
     return 0;
