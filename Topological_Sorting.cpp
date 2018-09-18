@@ -1,5 +1,4 @@
-// TOPOLOGICAL SORTING KAHN'S ALGORITHM O(V+E)
-//TO-DO update with correct code
+// TOPOLOGICAL SORTING USING BFS O(V+E)
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -24,32 +23,33 @@ int main() {
         indeg[v]++;
     } 
 
-    vector<int> q;
-    int level=0;
-    int flag=1;
-    while(flag){
-        flag=0;
-        for(int i=1; i<=n; i++){
-            if(vis[i]==0 && indeg[i] == 0) {
-                flag=1;
-                q.push_back(i); vis[i]=1;
-                cout<<level<<" "<<i<<endl;
-                for(int j=0; j<adj[i].size(); j++) indeg[adj[i][j]]--;
-            }
+    //use priority queue when an ordering between independent nodes is required
+    //for ex, here we want the lexicographically smallest topological sort order to be printed
+    priority_queue<int> q;
+    for(int i=1; i<=n; i++){
+        if(indeg[i] == 0) q.push(-i);
+    }    
+
+    vector<int> res;
+    while(!q.empty()){
+        int u = -q.top();
+        q.pop();
+        res.push_back(u);
+        for(int i=0; i<adj[u].size(); i++){
+            int v = adj[u][i];
+            indeg[v]--;
+            if(indeg[v]==0) q.push(-v);
         }
-        level++;
     }
 
-    flag=1;
-    for(int i=1; i<=n && flag; i++) {
-        if(!vis[i]) flag=0;
+    if(res.size()!=n) {
+        //cycle is detected
+        printf("Sandro fails.\n");
     }
-    if(!flag) printf("ERROR\n"); //cycle detected
     else{
-        for(int i=0; i<q.size(); i++){
-            printf("%d ", q[i]);
-        }
+        for(int i=0; i<res.size(); i++) printf("%d ", res[i]);
         printf("\n");
     }
+
     return 0;
 }
