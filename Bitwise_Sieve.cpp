@@ -1,61 +1,51 @@
 #include <iostream>
-#include <climits>
-#include <cstring>
-#include <algorithm>
 #include <vector>
-#define MAX  100000001  
-#define NINF INT_MIN
-#define INF INT_MAX
-#define ll long long
+#define MAX 100000001
 using namespace std;
 
-unsigned int flag[MAX>>6];
+int bitvector[(MAX>>5)+1];
 vector<int> primes;
 
 bool getPrime(int n){
-    if(n==2) return true;
-    if(n%2==0) return false;
-    int pos = (n>>6); //(n/2)/32 = (n/64)
-    int bit_pos = (n>>1)&31; // (n/2)%32
-    return (flag[pos]>>bit_pos) & 1 ;
+	int bv_index = (n>>5);
+	int bit_pos = n%32; 
+	return ( (bitvector[bv_index]>>bit_pos) & 1);
 }
 
 void setPrime(int n){
-    int pos = (n>>6); //(n/2)/32 = (n/64)
-    // cout<<n<<" "<<pos<<endl;
-    int bit_pos = (n>>1)&31; // (n/2)%32
-    flag[pos] &= ~(1<<bit_pos);
+	int bv_index = (n>>5) ;
+	int bit_pos = n%32;
+	bitvector[bv_index] = bitvector[bv_index] & (~(1<<bit_pos));
 }
 
-void bitwise_sieve(){
-    for(ll i=0; i<(MAX>>6); i++){
-        ll x = (1LL<<32) - 1; //set all bits in flag[i] to 1
-        flag[i] = x;
-    }
-
-    for(ll i=3; i<MAX; i+=2){
-        if(getPrime(i)){
-            for(ll j=i*i; j<MAX; j+=(2*i)){
-                setPrime(j);
-            }
-        }
-    }
-
-    primes.push_back(2);
-    for(unsigned int i=3; i<MAX; i+=2){
-        if(getPrime(i)){
-            primes.push_back(i);
-        }
-    }
+void seive(){
+	for(int i=0; i<=(MAX>>5); i++){
+		long long x =(1LL<<32)-1LL;
+		bitvector[i] = x;
+	}
+	
+	for(long long i=2; i<MAX; i++){
+		if(getPrime(i)){
+			for(long long j=i*i; j<MAX; j+=i){
+				setPrime(j);
+			}
+		}
+	}
+	
+	for(int i=2; i<MAX; i++){
+		if(getPrime(i)){
+			primes.push_back(i);	
+		} 
+	}
 }
 
-int main() {
-    int tc; scanf("%d", &tc);
-    bitwise_sieve();
-    while(tc--){
-        int n; scanf("%d", &n);
-        printf("%d\n", primes[n-1]); //print nth prime number
-    }
-
-    return 0;
+int main(){
+	seive();
+	int idx=0;
+	 //cout<<primes.size()<<endl;
+	while(idx < primes.size()){
+		cout<<primes[idx]<<endl;
+		idx += 100;
+	}
+	return 0;
 }
