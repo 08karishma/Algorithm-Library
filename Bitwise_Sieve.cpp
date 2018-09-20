@@ -3,6 +3,28 @@
 #define MAX 100000001
 using namespace std;
 
+//USING BITSET
+/*
+vector<int> primes;
+bitset<MAX> isPrime;
+
+void sieve(){
+	isPrime.set();
+	for(long long i=2; i<MAX; i++){
+		if(isPrime[i]==1){
+			for(long long j=i*i; j<MAX; j+=i) {
+				isPrime.reset(j);
+			}
+		}
+	}
+	for(int i=2; i<MAX; i++){
+		if(isPrime[i]==1) {
+			primes.push_back(i);
+		}
+	}
+}
+*/
+
 int bitvector[(MAX>>5)+1];
 vector<int> primes;
 
