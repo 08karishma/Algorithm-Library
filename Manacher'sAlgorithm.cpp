@@ -30,8 +30,10 @@ string manacher(string s1){
     memset(P, 0, sizeof P);
     int c=0, r=0;
     for(int i=1; i<n; i++){
-        int iMirr = c-(i-c);
-        P[i] = min(P[iMirr], r-i);
+        if(i<r){
+            int iMirr = c-(i-c);
+            P[i] = min(P[iMirr], r-i);
+        }
         while(i+P[i]+1<n && i-P[i]-1>=0 && s[i+P[i]+1] == s[i-P[i]-1]){
             P[i]++;
         }
