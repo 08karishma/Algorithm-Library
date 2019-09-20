@@ -1,4 +1,5 @@
 //ALGORITHM TO FIND CONVEX HULL IN O(n^2) TIME
+//Corner case of all collinear points should be handled -> hull will consist of all points if all are collinear
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -31,6 +32,37 @@ double dis(int i, int j){
     ans = sqrt(ans);
     return ans;
 }
+
+//copied from my solution of https://leetcode.com/problems/erect-the-fence/
+//input format is different
+ bool allCollinear(vector<vector<int>>& points){
+        if(points.size() <= 2) return 1;
+        
+        int dx = points[0][0] - points[1][0];
+        int dy = points[0][1] - points[1][1];
+        bool isNeg = (dx<0 && dy>0) || (dx>0 && dy<0);
+        dx = abs(dx);
+        dy = abs(dy);
+        int g = __gcd(dx, dy);
+        dx /= g;
+        dy /= g;
+        
+        for(int i=2; i<points.size(); i++){
+            int dxi = points[0][0]-points[i][0];
+            int dyi = points[0][1]-points[i][1];
+            bool isNegi = (dxi<0 && dyi>0) || (dxi>0 && dyi<0);
+            if(isNegi != isNeg) return false;
+            
+            dxi = abs(dxi);
+            dyi = abs(dyi);
+            int gi = __gcd(dxi, dyi);
+            dxi /= gi;
+            dyi /= gi;
+            if(dy!=0 && dxi!=dx) return false;
+            if(dx!=0 && dyi!=dy) return false;
+        }
+        return true;
+   }
 
 //stores in vector hull indices of points on hull starting from bottom-left point 
 //and moving in CLOCKWISE direction
