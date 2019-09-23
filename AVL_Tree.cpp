@@ -1,5 +1,6 @@
 //AVL TREE IMPLEMENTATION
 //SEE BST IMPLEMENTATION FIRST FOR EASIER UNDERSTANDING
+//CHECKOUT THIS SUBMISSION FOR HEIGHTS IN O(1) - https://leetcode.com/submissions/detail/263534204/
 #include <iostream>
 using namespace std;
 
